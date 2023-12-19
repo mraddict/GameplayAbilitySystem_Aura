@@ -23,6 +23,19 @@ void AAuraCharacter::PossessedBy(AController* NewController)
 	Super::PossessedBy(NewController);
 
 	// Init ability actor info for the server
+	InitAbilityActorInfo();
+}
+
+void AAuraCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+
+	// Init ability actor info for the client
+	InitAbilityActorInfo();
+}
+
+void AAuraCharacter::InitAbilityActorInfo()
+{
 	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
 	check(AuraPlayerState);
 
@@ -30,9 +43,4 @@ void AAuraCharacter::PossessedBy(AController* NewController)
 	AbilitySystemComponent->InitAbilityActorInfo(AuraPlayerState, this);
 
 	AttributeSet = AuraPlayerState->GetAttributeSet();
-}
-
-void AAuraCharacter::OnRep_PlayerState()
-{
-	Super::OnRep_PlayerState();
 }
