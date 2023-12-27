@@ -3,12 +3,13 @@
 
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "Net/UnrealNetwork.h"
+#include "GameplayEffectExtension.h"
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
 	InitHealth(50.0f);
 	InitMaxHealth(100.0f);
-	InitMana(50.0f);
+	InitMana(10.0f);
 	InitMaxMana(50.0f);
 }
 
@@ -20,6 +21,35 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Mana, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxMana, COND_None, REPNOTIFY_Always);
+}
+void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
+{
+	Super::PreAttributeChange(Attribute, NewValue);
+
+	if (Attribute == GetHealthAttribute())
+	{
+		NewValue = FMath::Clamp(NewValue, 0.0f, GetMaxHealth());
+	}
+
+	if (Attribute == GetManaAttribute())
+	{
+		NewValue = FMath::Clamp(NewValue, 0.0f, GetMaxMana());
+	}
+}
+
+void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
+{
+	Super::PostGameplayEffectExecute(Data);
+
+	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
+	{
+
+	}
+
+	// Source = causer of the effect
+	// Target = target of the effect (owner of this AS)
+
+
 }
 
 void UAuraAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const
