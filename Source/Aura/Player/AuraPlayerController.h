@@ -9,6 +9,7 @@
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
+class IEnemyInterface;
 
 /**
  * 
@@ -22,6 +23,12 @@ public:
 
 	AAuraPlayerController();
 
+	/**
+	 * Processes player input (immediately after PlayerInput gets ticked) and calls UpdateRotation().
+	 * PlayerTick is only called if the PlayerController has a PlayerInput object. Therefore, it will only be called for locally controlled PlayerControllers.
+	 */
+	virtual void PlayerTick(float DeltaTime);
+
 protected:
 
 	virtual void BeginPlay() override;
@@ -30,6 +37,7 @@ protected:
 private:
 
 	void Move(const FInputActionValue& InputActionValue);
+	void TraceCursor();
 
 private:
 
@@ -38,4 +46,7 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputAction> AuraMoveAction;
+
+	TScriptInterface<IEnemyInterface> LastEnemyActor;
+	TScriptInterface<IEnemyInterface> ThisEnemyActor;
 };
