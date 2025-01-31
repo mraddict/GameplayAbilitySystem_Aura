@@ -18,15 +18,16 @@ public:
 
 	AAuraCharacter();
 	
-	/**
-	 * Called when this Pawn is possessed. Only called on the server (or in standalone).
-	 * @param NewController The controller possessing this pawn
-	 */
+	/** Called when this Pawn is possessed. Only called on the server (or in standalone). */
 	virtual void PossessedBy(AController* NewController) override;
 	/** PlayerState Replication Notification Callback */
 	virtual void OnRep_PlayerState() override;
 
-private:
+	// ICombatInterface
 
-	void InitAbilityActorInfo();
+	virtual int32 GetPlayerLevel() override;
+
+protected:
+
+	virtual void InitAbilityActorInfo() override;
 };

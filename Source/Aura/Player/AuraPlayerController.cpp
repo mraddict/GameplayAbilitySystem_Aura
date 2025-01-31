@@ -29,8 +29,8 @@ void AAuraPlayerController::TraceCursor()
 	}
 
 	LastEnemyActor = ThisEnemyActor;
-	//ThisEnemyActor = Cast<IEnemyInterface>(CursorHit.GetActor());
-	ThisEnemyActor = CursorHit.GetActor();
+	ThisEnemyActor = Cast<IEnemyInterface>(CursorHit.GetActor());
+	//ThisEnemyActor = CursorHit.GetActor();
 
 	/**
 	 * Line trace from cursor. There are several scenarios.

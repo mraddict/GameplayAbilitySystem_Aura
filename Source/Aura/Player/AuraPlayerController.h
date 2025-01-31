@@ -47,6 +47,6 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputAction> AuraMoveAction;
 
-	TScriptInterface<IEnemyInterface> LastEnemyActor;
-	TScriptInterface<IEnemyInterface> ThisEnemyActor;
+	IEnemyInterface* LastEnemyActor;
+	IEnemyInterface* ThisEnemyActor;
 };
